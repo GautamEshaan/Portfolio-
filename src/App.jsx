@@ -1,19 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-// 🚫 Removed direct node imports for GSAP to fix compilation error.
-// We will rely on GSAP being loaded globally via a script tag (assumed in this environment)
-// or use dynamic imports/CDN loading if necessary, but standard practice here is to assume global availability.
-// For this fix, we will rely on 'window.gsap' being available.
 import { Phone, Mail, Github, Linkedin, Code, Layers, TerminalSquare } from 'lucide-react';
+import * as Lucide from 'lucide-react'
 
-// --- Helper to get GSAP and ScrollTrigger from the window object ---
-// This ensures we reference the globally loaded libraries.
+
 const getGsap = () => window.gsap;
 const getScrollTrigger = () => window.ScrollTrigger;
 
-// Helper function to dynamically inject GSAP and ScrollTrigger via CDN
-// This ensures they are loaded before the components try to use them.
+
 const loadGsap = () => {
-  if (window.gsap && window.ScrollTrigger) return; // Already loaded
+  if (window.gsap && window.ScrollTrigger) return; 
 
   const gsapScript = document.createElement('script');
   gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
@@ -25,7 +20,6 @@ const loadGsap = () => {
     document.head.appendChild(stScript);
     
     stScript.onload = () => {
-        // Register the plugin after it's loaded
         if (window.gsap && window.ScrollTrigger) {
             window.gsap.registerPlugin(window.ScrollTrigger);
         }
@@ -33,13 +27,12 @@ const loadGsap = () => {
   };
 };
 
-// --- Data based on the resume ---
+
 const CONTACT_INFO = {
   email: "gautameshaan02@gmail.com",
   phone: "8506816103",
   github: "https://github.com/GautamEshaan",
   linkedin: "https://www.linkedin.com/in/eshaan-gautam/",
-  // Stable, themed placeholder image used as the previously provided links failed.
   profileImageUrl: "https://placehold.co/200x200/1e293b/06b6d4?text=EG", 
 };
 
@@ -49,23 +42,23 @@ const PROJECTS = [
     tech: ["HTML", "CSS", "JS", "Locomotive", "GSAP"],
     description: "An interactive webpage developed to help businesses enhance their digital branding. Features integrated smooth scrolling and complex GSAP animations for a unique and engaging user experience, showcasing expertise in advanced web animation techniques.",
     color: "text-cyan-400",
-    url: CONTACT_INFO.github, // Linking to general GitHub for simplicity
+    url: CONTACT_INFO.github, 
   },
   {
     title: "Notes App (FRONT-END)",
     tech: ["React.js", "Tailwind CSS", "JavaScript", "Vite"],
     description: "Built a fast and responsive Notes App using modern React and Vite. It includes core features like note creation, editing, and deletion, styled meticulously with Tailwind CSS for a clean UI and smooth, modern user experience.",
     color: "text-purple-400",
-    url: CONTACT_INFO.github, // Linking to general GitHub for simplicity
+    url: CONTACT_INFO.github,
   },
   {
     title: "GYM MANAGEMENT WEBSITE",
     tech: ["HTML", "CSS", "JavaScript"],
     description: "A dynamic, front-end gym website developed with interactive features to enhance user engagement. Implemented smooth navigation transitions and a fully responsive design, ensuring optimal viewing and usability across all device types.",
     color: "text-fuchsia-400",
-    url: CONTACT_INFO.github, // Linking to general GitHub for simplicity
+    url: CONTACT_INFO.github, 
   },
-  // NEW PROJECT ADDED HERE
+  
   {
     title: "GALLERY PROJECT",
     tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
@@ -77,15 +70,12 @@ const PROJECTS = [
 
 const SKILLS = [
   { category: "Language", items: ["Java", "JavaScript"] },
-  // Updated from "Front-End" to "Web Technologies"
+  
   { category: "Web Technologies", items: ["HTML", "CSS", "React.js", "Tailwind CSS"] },
   { category: "Database", items: ["MySQL"] },
   { category: "Tools", items: ["Git-Github", "Vite", "VS Code"] },
 ];
 
-/**
- * Custom hook to run GSAP animations on component mount, ensuring GSAP is available.
- */
 const useGsapAnimation = (animationCallback) => {
   const elementRef = useRef(null);
 
@@ -94,7 +84,7 @@ const useGsapAnimation = (animationCallback) => {
     const ScrollTriggerInstance = getScrollTrigger();
 
     if (!gsapInstance || !ScrollTriggerInstance) {
-        // Wait for GSAP/ScrollTrigger to load if not immediately available
+        
         const checkGsap = setInterval(() => {
             if (getGsap() && getScrollTrigger()) {
                 clearInterval(checkGsap);
@@ -113,7 +103,7 @@ const useGsapAnimation = (animationCallback) => {
 
         return () => context.revert();
     }
-    // Note: Dependencies are simplified since GSAP is loaded globally/dynamically
+
   }, [animationCallback]);
 
   return elementRef;
@@ -135,7 +125,7 @@ const Header = () => (
           </a>
         ))}
       </nav>
-      {/* Mobile Menu Icon Placeholder */}
+      
       <div className="md:hidden text-cyan-400">
         <TerminalSquare className='w-6 h-6'/>
       </div>
@@ -145,16 +135,16 @@ const Header = () => (
 
 const Hero = () => {
   const animationCallback = (gsap) => {
-    // Initial hero text animation (Staggered slide-in)
+
     gsap.timeline()
-      .fromTo(".hero-photo", // New photo animation
+      .fromTo(".hero-photo", 
         { opacity: 0, scale: 0.5, rotation: -90 }, 
         { opacity: 1, scale: 1, rotation: 0, duration: 1, ease: "back.out(1.7)" }
       )
       .fromTo(".hero-line-text", 
         { y: '100%', opacity: 0 }, 
         { y: '0%', opacity: 1, duration: 1, stagger: 0.15, ease: "power4.out" },
-        "-=0.7" // Start text animation while photo is still animating
+        "-=0.7" 
       )
       .fromTo(".hero-summary", 
         { opacity: 0, y: 20 }, 
@@ -176,7 +166,7 @@ const Hero = () => {
       ref={heroRef}
       className="hero-section min-h-screen flex items-center justify-center text-center bg-gray-950 pt-20 relative overflow-hidden"
     >
-        {/* Subtle background coding texture */}
+        
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
             backgroundImage: `repeating-linear-gradient(0deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 30px), repeating-linear-gradient(90deg, #1f2937 0px, #1f2937 1px, transparent 1px, transparent 30px)`,
             backgroundSize: '30px 30px',
@@ -184,7 +174,7 @@ const Hero = () => {
 
       <div className="p-4 max-w-5xl z-10">
         
-        {/* Profile Photo */}
+        
         <div className="mb-8 flex justify-center">
             <img
                 src={CONTACT_INFO.profileImageUrl}
@@ -192,7 +182,7 @@ const Hero = () => {
                 className="hero-photo w-32 h-32 sm:w-48 sm:h-48 object-cover rounded-full border-4 border-cyan-500 shadow-xl shadow-cyan-600/50 opacity-0"
                 onError={(e) => {
                     e.target.onerror = null; 
-                    e.target.src = "https://placehold.co/200x200/505050/FFFFFF?text=EG"; // Fallback placeholder
+                    e.target.src = "https://placehold.co/200x200/505050/FFFFFF?text=EG"; 
                 }}
             />
         </div>
@@ -244,7 +234,7 @@ const ProjectCard = ({ project }) => {
   const cardRef = useRef(null);
   
   const animationCallback = (gsap, ScrollTrigger) => {
-    // Animation for each card using ScrollTrigger
+    
     gsap.fromTo(cardRef.current,
       { y: 50, opacity: 0, scale: 0.95 },
       {
@@ -255,7 +245,7 @@ const ProjectCard = ({ project }) => {
         ease: "power3.out",
         scrollTrigger: {
           trigger: cardRef.current,
-          start: "top 85%", // Start animation when the top of the element hits 85% of the viewport height
+          start: "top 85%", 
           toggleActions: "play none none none",
         }
       }
@@ -266,7 +256,7 @@ const ProjectCard = ({ project }) => {
 
 
   return (
-    // Make the entire card a clickable link to the project URL
+    
     <a 
       href={project.url} 
       target="_blank" 
@@ -278,7 +268,7 @@ const ProjectCard = ({ project }) => {
         <Layers className={project.color} size={30} />
         <h3 className={`text-2xl font-bold ${project.color}`}>{project.title}</h3>
       </div>
-      {/* Increased bottom margin on description and removed fixed height (h-24) to prevent overlap */}
+
       <p className="text-gray-400 mb-6">{project.description}</p>
       <div className="flex flex-wrap gap-2 pt-2">
         {project.tech.map((t, i) => (
@@ -302,7 +292,7 @@ const ProjectsSection = () => {
           // Showcasing proficiency in Web Technologies development, animation (GSAP), and clean UI/UX design.
         </p>
         
-        {/* Updated grid layout to accommodate 4 projects, wrapping nicely on desktop */}
+      
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {PROJECTS.map((project, index) => (
             <ProjectCard key={index} project={project} /> 
@@ -315,7 +305,7 @@ const ProjectsSection = () => {
 
 const SkillsSection = () => {
   const animationCallback = (gsap, ScrollTrigger) => {
-    // Staggered slide-in animation for skill items
+
     gsap.fromTo(".skill-item", 
       { opacity: 0, scale: 0.8, x: -20 },
       {
@@ -371,7 +361,7 @@ const SkillsSection = () => {
 
 const ContactSection = () => {
   const animationCallback = (gsap, ScrollTrigger) => {
-    // Simple fade-in for contact elements
+    
     gsap.fromTo(".contact-item", 
       { opacity: 0, y: 30 },
       {
@@ -443,15 +433,15 @@ const Footer = () => (
 
 
 export default function App() {
-  // Ensure GSAP is loaded via CDN scripts before components rely on it
+  
   useEffect(() => {
     loadGsap();
   }, []);
 
   return (
-    // Set a monospace font globally for the coding aesthetic
+    
     <div className="min-h-screen bg-gray-950 text-white font-mono">
-      {/* GSAP and ScrollTrigger are loaded dynamically via useEffect in App component */}
+
       
       <Header />
       <main>
