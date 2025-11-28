@@ -6,6 +6,11 @@ The portfolio is designed with a modern Neo-Brutalist / Hacker Aesthetic and fea
 
 ---
 
+# Live link
+eshaan-portfolio1.vercel.app
+
+---
+
 ## ✨ Features
 
 Responsive Design: Optimized for seamless viewing across all devices (mobile, tablet, desktop) using Tailwind CSS.
