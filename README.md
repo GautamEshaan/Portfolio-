@@ -7,7 +7,7 @@ The portfolio is designed with a modern Neo-Brutalist / Hacker Aesthetic and fea
 ---
 
 # Live link
-eshaan-portfolio1.vercel.app
+[eshaan-portfolio1.vercel.app](https://eshaan-gautam.vercel.app/)
 
 ---
 
